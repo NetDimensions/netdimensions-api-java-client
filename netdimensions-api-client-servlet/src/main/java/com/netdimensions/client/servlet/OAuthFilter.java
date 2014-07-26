@@ -1,15 +1,15 @@
 package com.netdimensions.client.servlet;
 
-import java.net.URI;
+import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-
-import com.google.common.collect.ImmutableList;
+import javax.servlet.http.HttpServletResponse;
 
 public final class OAuthFilter implements Filter {
 	@Override
@@ -17,13 +17,16 @@ public final class OAuthFilter implements Filter {
 	}
 
 	@Override
-	public final void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) {
+	public final void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
 		final HttpServletRequest httpRequest = (HttpServletRequest) request;
-		final String queryString = httpRequest.getQueryString();
-		final String requestUrl = httpRequest.getRequestURL().toString() + (queryString == null ? "" : ("?" + queryString));
-		ImmutableList.of(new Parameter("response_type", "code"), new Parameter("client_id", "anonymous"), new Parameter("redirect_uri", URI.create(requestUrl)
-				.resolve(httpRequest.getContextPath() + "/cb").toString()),
-				new Parameter("state", ((String) httpRequest.getSession().getAttribute(OAuthSessionListener.ATTRIBUTE_NAME_STATE)) + "," + requestUrl));
+		if (Servlets.REDIRECTION_URI_PATH.equals(httpRequest.getRequestURI().substring(httpRequest.getContextPath().length()))) {
+			chain.doFilter(request, response);
+		} else {
+			((HttpServletResponse) response).sendRedirect(Servlets.TALENT_SUITE_BASE_URL
+					+ "servlet/ekp/authorize?"
+					+ Parameter.toString(new Parameter("response_type", "code"), Parameter.CLIENT_ID, Parameter.redirectUri(httpRequest), new Parameter(
+							"state", new State(Servlets.csrfToken(httpRequest), Servlets.requestUrl(httpRequest)).toString())));
+		}
 	}
 
 	@Override
