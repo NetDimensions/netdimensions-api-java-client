@@ -27,7 +27,7 @@ final class Parameter {
 				.toString());
 	}
 
-	static String toString(final Parameter... parameters) {
+	static String toString(final Iterable<Parameter> parameters) {
 		return Joiner.on('&').join(parameters);
 	}
 

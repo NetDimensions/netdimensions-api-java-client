@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.collect.ImmutableList;
+
 public final class OAuthFilter implements Filter {
 	@Override
 	public final void destroy() {
@@ -19,13 +21,14 @@ public final class OAuthFilter implements Filter {
 	@Override
 	public final void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
 		final HttpServletRequest httpRequest = (HttpServletRequest) request;
-		if (Servlets.REDIRECTION_URI_PATH.equals(httpRequest.getRequestURI().substring(httpRequest.getContextPath().length()))) {
+		final String accessToken = Servlets.accessToken(httpRequest);
+		if (accessToken != null || Servlets.REDIRECTION_URI_PATH.equals(httpRequest.getRequestURI().substring(httpRequest.getContextPath().length()))) {
 			chain.doFilter(request, response);
 		} else {
 			((HttpServletResponse) response).sendRedirect(Servlets.TALENT_SUITE_BASE_URL
 					+ "servlet/ekp/authorize?"
-					+ Parameter.toString(new Parameter("response_type", "code"), Parameter.CLIENT_ID, Parameter.redirectUri(httpRequest), new Parameter(
-							"state", new State(Servlets.csrfToken(httpRequest), Servlets.requestUrl(httpRequest)).toString())));
+					+ Parameter.toString(ImmutableList.of(new Parameter("response_type", "code"), Parameter.CLIENT_ID, Parameter.redirectUri(httpRequest),
+							new Parameter("state", new State(Servlets.csrfToken(httpRequest), Servlets.requestUrl(httpRequest)).toString()))));
 		}
 	}
 

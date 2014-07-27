@@ -1,19 +1,31 @@
 package com.netdimensions.client;
 
-public final class User {
-	private final String given;
-	private final String family;
+import org.json.JSONObject;
 
-	private User(final String given, final String family) {
-		this.given = given;
-		this.family = family;
+public final class User {
+	private final JSONObject jo;
+
+	User(final JSONObject jo) {
+		this.jo = jo;
 	}
 
-	public final String given() {
-		return given;
+	public final String id() {
+		return stringOrNull("id");
 	}
 
 	public final String family() {
-		return family;
+		return stringOrNull("family");
+	}
+
+	public final String given() {
+		return stringOrNull("given");
+	}
+
+	public final String email() {
+		return stringOrNull("email");
+	}
+
+	private final String stringOrNull(final String key) {
+		return jo.optString(key, null);
 	}
 }
