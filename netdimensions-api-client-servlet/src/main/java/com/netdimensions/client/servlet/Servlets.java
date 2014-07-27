@@ -1,16 +1,16 @@
 package com.netdimensions.client.servlet;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.netdimensions.client.Client;
-import com.netdimensions.client.Credentials;
 
 // Noninstantiable utility class
 public final class Servlets {
 	static final String ATTRIBUTE_NAME_CSRF_TOKEN = "com.netdimensions.client.servlet.CSRF_TOKEN";
-	static final String TALENT_SUITE_BASE_URL = "https://preview.netdimensions.com/preview/";
 	static final String REDIRECTION_URI_PATH = "/cb";
 	static final String ATTRIBUTE_NAME_ACCESS_TOKEN = "com.netdimensions.client.servlet.ACCESS_TOKEN";
+	static final String ATTRIBUTE_NAME_CLIENT = "com.netdimensions.client.servlet.CLIENT";
 
 	// Suppress default constructor for noninstantiability
 	private Servlets() {
@@ -18,11 +18,11 @@ public final class Servlets {
 	}
 
 	public static Client client(final HttpServletRequest req) {
-		final String accessToken = accessToken(req);
-		if (accessToken == null) {
-			throw new IllegalStateException("Unauthorized");
+		final Object attr = req.getAttribute(ATTRIBUTE_NAME_CLIENT);
+		if (attr instanceof Client) {
+			return (Client) attr;
 		} else {
-			return new Client(TALENT_SUITE_BASE_URL, Credentials.bearer(accessToken));
+			throw new IllegalStateException("No authorization found; is the authorization filter mapped for the requested resource?");
 		}
 	}
 
@@ -36,5 +36,9 @@ public final class Servlets {
 
 	static String accessToken(final HttpServletRequest request) {
 		return (String) request.getSession().getAttribute(ATTRIBUTE_NAME_ACCESS_TOKEN);
+	}
+
+	static String talentSuiteBaseUrl(final ServletContext servletContext) {
+		return servletContext.getInitParameter("com.netdimensions.client.servlet.TALENT_SUITE_BASE_URL");
 	}
 }

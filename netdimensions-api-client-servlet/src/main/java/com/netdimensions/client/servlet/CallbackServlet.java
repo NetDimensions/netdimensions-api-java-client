@@ -28,7 +28,7 @@ public final class CallbackServlet extends HttpServlet {
 			req.getSession().setAttribute(
 					Servlets.ATTRIBUTE_NAME_ACCESS_TOKEN,
 					post(
-							Servlets.TALENT_SUITE_BASE_URL + "servlet/ekp/token",
+							Servlets.talentSuiteBaseUrl(getServletContext()) + "servlet/ekp/token",
 							ImmutableList.of(new Parameter("grant_type", "authorization_code"), new Parameter("code", req.getParameter("code")),
 									Parameter.redirectUri(req), Parameter.CLIENT_ID)).getString("access_token"));
 			resp.sendRedirect(state.target);
