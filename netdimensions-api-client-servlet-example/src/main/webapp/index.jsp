@@ -13,15 +13,19 @@
 	<h1><%=title%></h1>
 	<table>
 		<tr>
-			<th align="right">ID:</th>
+			<th align="right" valign="top">ID:</th>
 			<td><%=user.id()%></td>
 		</tr>
 		<tr>
-			<th align="right">Name:</th>
+			<th align="right" valign="top">Name:</th>
 			<td><%=user.given()%> <%=user.family()%></td>
 		</tr>
 		<tr>
-			<th align="right">Email:</th>
+			<th align="right" valign="top">Address:</th>
+			<td><%=user.address1()%><br><%=user.address2()%><br><%=user.city()%><br><%=user.provinceState()%><br><%=user.postalCodeZip()%><br><%=user.country() == null ? null : user.country().name()%></td>
+		</tr>
+		<tr>
+			<th align="right" valign="top">Email:</th>
 			<td><%=user.email()%></td>
 		</tr>
 	</table>

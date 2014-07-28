@@ -10,22 +10,43 @@ public final class User {
 	}
 
 	public final String id() {
-		return stringOrNull("id");
+		return Json.stringOrNull(jo, "id");
 	}
 
 	public final String family() {
-		return stringOrNull("family");
+		return Json.stringOrNull(jo, "family");
 	}
 
 	public final String given() {
-		return stringOrNull("given");
+		return Json.stringOrNull(jo, "given");
 	}
 
 	public final String email() {
-		return stringOrNull("email");
+		return Json.stringOrNull(jo, "email");
 	}
 
-	private final String stringOrNull(final String key) {
-		return jo.optString(key, null);
+	public final String address1() {
+		return Json.stringOrNull(jo, "address1");
+	}
+
+	public final String address2() {
+		return Json.stringOrNull(jo, "address2");
+	}
+
+	public final String city() {
+		return Json.stringOrNull(jo, "city");
+	}
+
+	public final String provinceState() {
+		return Json.stringOrNull(jo, "provinceState");
+	}
+
+	public final String postalCodeZip() {
+		return Json.stringOrNull(jo, "postalCodeZip");
+	}
+
+	public final Country country() {
+		final JSONObject country = jo.optJSONObject("country");
+		return country == null ? null : new Country(country);
 	}
 }

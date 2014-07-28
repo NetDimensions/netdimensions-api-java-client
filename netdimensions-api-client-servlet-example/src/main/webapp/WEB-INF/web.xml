@@ -6,10 +6,6 @@
 	<display-name>NetDimensions Talent Suite API Client Library for Java -
 		Sample Webapp
 	</display-name>
-	<context-param>
-		<param-name>com.netdimensions.client.servlet.TALENT_SUITE_BASE_URL</param-name>
-		<param-value>https://preview.netdimensions.com/preview/</param-value>
-	</context-param>
 	<filter>
 		<filter-name>AuthorizationFilter</filter-name>
 		<filter-class>com.netdimensions.client.servlet.AuthorizationFilter</filter-class>
