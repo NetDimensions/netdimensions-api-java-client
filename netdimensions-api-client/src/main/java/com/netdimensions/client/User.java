@@ -1,5 +1,7 @@
 package com.netdimensions.client;
 
+import static com.netdimensions.client.Json.stringOrNull;
+
 import org.json.JSONObject;
 
 public final class User {
@@ -10,39 +12,39 @@ public final class User {
 	}
 
 	public final String id() {
-		return Json.stringOrNull(jo, "id");
+		return stringOrNull(jo, "id");
 	}
 
 	public final String family() {
-		return Json.stringOrNull(jo, "family");
+		return stringOrNull(jo, "family");
 	}
 
 	public final String given() {
-		return Json.stringOrNull(jo, "given");
+		return stringOrNull(jo, "given");
 	}
 
 	public final String email() {
-		return Json.stringOrNull(jo, "email");
+		return stringOrNull(jo, "email");
 	}
 
 	public final String address1() {
-		return Json.stringOrNull(jo, "address1");
+		return stringOrNull(jo, "address1");
 	}
 
 	public final String address2() {
-		return Json.stringOrNull(jo, "address2");
+		return stringOrNull(jo, "address2");
 	}
 
 	public final String city() {
-		return Json.stringOrNull(jo, "city");
+		return stringOrNull(jo, "city");
 	}
 
 	public final String provinceState() {
-		return Json.stringOrNull(jo, "provinceState");
+		return stringOrNull(jo, "provinceState");
 	}
 
 	public final String postalCodeZip() {
-		return Json.stringOrNull(jo, "postalCodeZip");
+		return stringOrNull(jo, "postalCodeZip");
 	}
 
 	public final Country country() {

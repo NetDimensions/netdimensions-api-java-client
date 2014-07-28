@@ -1,9 +1,11 @@
+<%@page import="com.netdimensions.client.Country"%>
 <%@page import="com.netdimensions.client.User"%>
 <%@page import="com.netdimensions.client.Request"%>
 <%@page import="com.netdimensions.client.servlet.Servlets"%>
 <%
 	User user = Servlets.client(request).send(Request.me());
 	String title = "Hello, " + user.given() + "!";
+	Country country = user.country();
 %>
 <html>
 <head>
@@ -22,7 +24,7 @@
 		</tr>
 		<tr>
 			<th align="right" valign="top">Address:</th>
-			<td><%=user.address1()%><br><%=user.address2()%><br><%=user.city()%><br><%=user.provinceState()%><br><%=user.postalCodeZip()%><br><%=user.country() == null ? null : user.country().name()%></td>
+			<td><%=user.address1()%><br><%=user.address2()%><br><%=user.city()%><br><%=user.provinceState()%><br><%=user.postalCodeZip()%><br><%=country == null ? null : (country.name() + " (" + country.code() + ")")%></td>
 		</tr>
 		<tr>
 			<th align="right" valign="top">Email:</th>

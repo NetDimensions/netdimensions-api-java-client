@@ -1,5 +1,7 @@
 package com.netdimensions.client;
 
+import static com.netdimensions.client.Json.stringOrNull;
+
 import org.json.JSONObject;
 
 public final class Country {
@@ -10,6 +12,10 @@ public final class Country {
 	}
 
 	public final String name() {
-		return Json.stringOrNull(jo, "name");
+		return stringOrNull(jo, "name");
+	}
+
+	public final String code() {
+		return stringOrNull(jo, "code");
 	}
 }
