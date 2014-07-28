@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import com.google.common.io.BaseEncoding;
 
-public final class OAuthSessionListener implements HttpSessionListener {
+public final class CsrfTokenSessionListener implements HttpSessionListener {
 	@Override
 	public final void sessionCreated(final HttpSessionEvent se) {
 		se.getSession().setAttribute(Servlets.ATTRIBUTE_NAME_CSRF_TOKEN, BaseEncoding.base16().lowerCase().encode(randomBytes()));

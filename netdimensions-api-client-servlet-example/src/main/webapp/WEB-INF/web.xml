@@ -11,22 +11,16 @@
 		<param-value>https://preview.netdimensions.com/preview/</param-value>
 	</context-param>
 	<filter>
-		<filter-name>OAuthFilter</filter-name>
-		<filter-class>com.netdimensions.client.servlet.OAuthFilter</filter-class>
+		<filter-name>AuthorizationFilter</filter-name>
+		<filter-class>com.netdimensions.client.servlet.AuthorizationFilter</filter-class>
 	</filter>
+	<!-- Map AuthorizationFilter to all resources that require API access. Must 
+		also be mapped for the path /cb as this is used to handle authorization callbacks. -->
 	<filter-mapping>
-		<filter-name>OAuthFilter</filter-name>
+		<filter-name>AuthorizationFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<listener>
-		<listener-class>com.netdimensions.client.servlet.OAuthSessionListener</listener-class>
+		<listener-class>com.netdimensions.client.servlet.CsrfTokenSessionListener</listener-class>
 	</listener>
-	<servlet>
-		<servlet-name>CallbackServlet</servlet-name>
-		<servlet-class>com.netdimensions.client.servlet.CallbackServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>CallbackServlet</servlet-name>
-		<url-pattern>/cb</url-pattern>
-	</servlet-mapping>
 </web-app>
