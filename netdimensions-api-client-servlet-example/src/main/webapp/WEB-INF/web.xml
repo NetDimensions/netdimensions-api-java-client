@@ -4,8 +4,7 @@
               http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
 	<display-name>NetDimensions Talent Suite API Client Library for Java -
-		Sample Webapp
-	</display-name>
+		Sample Webapp</display-name>
 	<filter>
 		<filter-name>AuthorizationFilter</filter-name>
 		<filter-class>com.netdimensions.client.servlet.AuthorizationFilter</filter-class>

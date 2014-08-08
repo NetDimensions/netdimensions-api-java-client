@@ -51,4 +51,8 @@ public final class User {
 		final JSONObject country = jo.optJSONObject("country");
 		return country == null ? null : new Country(country);
 	}
+
+	public final String phone() {
+		return stringOrNull(jo, "phone");
+	}
 }
