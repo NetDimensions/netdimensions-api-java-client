@@ -5,8 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import com.google.common.base.Joiner;
 
 public final class Client {
 	private final String talentSuiteBaseUrl;
@@ -18,10 +17,10 @@ public final class Client {
 	}
 
 	public final <T> T send(final Request<T> req) throws IOException {
-		final URLConnection connection = new URL(talentSuiteBaseUrl + "api/" + req.action).openConnection();
+		final URLConnection connection = new URL(talentSuiteBaseUrl + "api/" + req.action + "?" + Joiner.on('&').join(req.parameters)).openConnection();
 		connection.setRequestProperty("Authorization", credentials.toString());
 		try (final InputStream inputStream = connection.getInputStream()) {
-			return req.result(new JSONObject(new JSONTokener(inputStream)));
+			return req.result(inputStream);
 		}
 	}
 }
