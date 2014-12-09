@@ -5,11 +5,11 @@ import java.net.URLEncoder;
 
 import com.google.common.base.Charsets;
 
-final class Parameter {
-	private final String name;
-	private final String value;
+final class Field {
+	final String name;
+	final String value;
 
-	Parameter(final String name, final String value) {
+	Field(final String name, final String value) {
 		this.name = name;
 		this.value = value;
 	}
