@@ -1,4 +1,4 @@
-# Talent Suite API Client Library for Java
+# Talent Suite API Client Library for Java—Core
 
 The Talent Suite API Client Library for Java aims to provide straightforward access to the Talent Suite API for Java applications.
 
