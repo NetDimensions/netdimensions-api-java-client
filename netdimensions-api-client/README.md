@@ -17,5 +17,5 @@ Use [`com.netdimensions.client.SystemClient`](https://github.com/rmlowe/netdimen
 SystemClient sc = new SystemClient("https://www.example.com/ekp/",
                                    "ndadmin",
                                    "authKey");
-sc.updateUser("joestudent", "newpassword");
+sc.send(SystemRequest.updateUser("joestudent", "newpassword"));
 ```

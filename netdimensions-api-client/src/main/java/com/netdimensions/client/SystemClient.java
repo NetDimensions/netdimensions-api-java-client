@@ -14,13 +14,11 @@ import com.google.common.net.MediaType;
 
 public final class SystemClient {
 	private final String baseUrl;
-	private final String key;
-	private final String adminUserId;
+	private final Credentials credentials;
 
 	public SystemClient(final String baseUrl, final String adminUserId, final String key) {
 		this.baseUrl = baseUrl;
-		this.adminUserId = adminUserId;
-		this.key = key;
+		this.credentials = Credentials.basic(adminUserId, key);
 	}
 
 	public static void main(final String[] args) throws IOException {
@@ -29,20 +27,28 @@ public final class SystemClient {
 		final String key = args[2];
 		final String userId = args[3];
 		final String newPassword = args[4];
-		new SystemClient(baseUrl, adminUserId, key).updateUser(userId, newPassword);
+		new SystemClient(baseUrl, adminUserId, key).send(SystemRequest.updateUser(userId, newPassword));
 	}
 
-	public final void updateUser(final String userId, final String newPassword) throws IOException {
+	public final void send(final SystemRequest req) throws IOException {
 		final URLConnection con = new URL(baseUrl + "contentHandler/usersCsv").openConnection();
 		con.setDoOutput(true);
-		con.setRequestProperty("Authorization", Credentials.basic(adminUserId, key).toString());
+		con.setRequestProperty("Authorization", credentials.toString());
 		con.setRequestProperty("Content-Type", MediaType.CSV_UTF_8.toString());
 		try (final OutputStream out = con.getOutputStream()) {
-			out.write(encodeCsvFields(new Field("Action", "U"), new Field("UserId", userId), new Field("Password", newPassword)).getBytes(Charsets.UTF_8));
+			out.write(encodeCsvFields(new Field("Action", "U"), new Field("UserId", req.userId), new Field("Password", req.password)).getBytes(Charsets.UTF_8));
 			out.flush();
 		}
 		try (final InputStream in = con.getInputStream()) {
 		}
+	}
+
+	/**
+	 * @deprecated Use {@link #send(SystemRequest)} with {@link SystemRequest#updateUser(String, String)} instead.
+	 */
+	@Deprecated
+	public final void updateUser(final String userId, final String password) throws IOException {
+		send(SystemRequest.updateUser(userId, password));
 	}
 
 	private static String encodeCsvFields(final Field... fields) {
