@@ -7,8 +7,8 @@ Use [`com.netdimensions.client.Client`](https://github.com/rmlowe/netdimensions-
 ```java
 Client client = new Client("https://www.example.com/ekp/",
                            Credentials.bearer(myToken));
-User user = client.send(Request.me());
-System.out.println("Hello, " + user.given() + "!");
+User me = client.send(Request.me());
+System.out.println("Hello, " + me.given() + "!");
 ```
 
 Use [`com.netdimensions.client.SystemClient`](https://github.com/rmlowe/netdimensions-api-java-client/blob/master/netdimensions-api-client/src/main/java/com/netdimensions/client/SystemClient.java) to call API functions that expect system authentication.
