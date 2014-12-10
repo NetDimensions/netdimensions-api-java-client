@@ -5,5 +5,5 @@ Simple command-line application that downloads a user's batch reports to a local
 ## Sample usage
 
 ```shell
-java com.netdimensions.client.reports.BatchReportDownloader <Talent Suite base URL> <user ID> <password> <local directory>
+java -jar batch-report-downloader-1.0-jar-with-dependencies.jar https://www.example.com/ekp/ johndoe mypassword .
 ```
