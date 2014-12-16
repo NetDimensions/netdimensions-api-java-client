@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 
 final class Field {
@@ -18,6 +19,10 @@ final class Field {
 	@Override
 	public final String toString() {
 		return encode(name) + "=" + encode(value);
+	}
+
+	static String url(final String action, final Iterable<Field> parameters) {
+		return action + "?" + Joiner.on('&').join(parameters);
 	}
 
 	static Optional<Field> fromNullableValue(final String name, final String value) {

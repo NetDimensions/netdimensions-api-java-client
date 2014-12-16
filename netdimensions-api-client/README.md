@@ -31,3 +31,15 @@ sysClient.send(SystemRequest.createUser(new UserRecord("joestudent", "password",
 ```java
 sysClient.send(SystemRequest.updateUser(new UserRecord("joestudent", "newpassword", null, null));
 ```
+
+## Checkout API
+
+Construct a redirect to the [Checkout API](http://talentsuitedevelopers.com/2014/09/03/supporting-custom-storefronts-with-the-checkout-api/) as follows.
+
+```java
+String baseUrl = "https://www.example.com/ekp/";
+Iterable<String> itemIds = ImmutableList.of("course1/EKP000000200", "course2/EKP000000400");
+String onSuccess = "https://store.example.com/success";
+String onFailure = "https://store.example.com/cancel";
+response.sendRedirect(Redirects.checkoutUrl(baseUrl, itemIds, onSuccess, onFailure));
+```

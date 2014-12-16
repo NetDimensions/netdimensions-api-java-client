@@ -9,7 +9,6 @@ import java.net.URLConnection;
 
 import org.json.JSONArray;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.io.ByteStreams;
@@ -55,7 +54,7 @@ public abstract class Request<T> {
 	private static <T> Request<T> get(final String action, final ImmutableList<Field> parameters, final Parser<T> responseEntityParser) {
 		return new Request<T>() {
 			final T sendWith(final Client client) throws IOException {
-				final URLConnection connection = new URL(client.talentSuiteBaseUrl + "api/" + action + "?" + Joiner.on('&').join(parameters)).openConnection();
+				final URLConnection connection = new URL(Field.url(client.talentSuiteBaseUrl + "api/" + action, parameters)).openConnection();
 				connection.setRequestProperty("Authorization", client.credentials.toString());
 				try (final InputStream inputStream = connection.getInputStream()) {
 					return responseEntityParser.parse(inputStream);
