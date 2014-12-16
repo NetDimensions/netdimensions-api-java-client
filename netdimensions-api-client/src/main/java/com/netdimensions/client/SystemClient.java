@@ -2,14 +2,14 @@ package com.netdimensions.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
-import com.google.common.collect.Iterables;
+import com.google.common.io.CharStreams;
 import com.google.common.net.MediaType;
 
 public final class SystemClient {
@@ -26,20 +26,30 @@ public final class SystemClient {
 		final String adminUserId = args[1];
 		final String key = args[2];
 		final String userId = args[3];
-		final String newPassword = args[4];
-		new SystemClient(baseUrl, adminUserId, key).send(SystemRequest.updateUser(userId, newPassword));
+		final String password = args[4];
+		final String familyName = args[5];
+		final String givenName = args[6];
+		final boolean result = new SystemClient(baseUrl, adminUserId, key).send(SystemRequest
+				.createUser(new UserRecord(userId, password, familyName, givenName)));
+		if (result) {
+			System.out.println("Successfully created user");
+		} else {
+			System.out.println("Couldn't create user");
+		}
 	}
 
-	public final void send(final SystemRequest req) throws IOException {
+	public final boolean send(final SystemRequest req) throws IOException {
 		final URLConnection con = new URL(baseUrl + "contentHandler/usersCsv").openConnection();
 		con.setDoOutput(true);
 		con.setRequestProperty("Authorization", credentials.toString());
 		con.setRequestProperty("Content-Type", MediaType.CSV_UTF_8.toString());
 		try (final OutputStream out = con.getOutputStream()) {
-			out.write(encodeCsvFields(new Field("Action", "U"), new Field("UserId", req.userId), new Field("Password", req.password)).getBytes(Charsets.UTF_8));
+			out.write(req.user.toCsvString(req.action).getBytes(Charsets.UTF_8));
 			out.flush();
 		}
 		try (final InputStream in = con.getInputStream()) {
+			final List<String> lines = CharStreams.readLines(new InputStreamReader(in, Charsets.UTF_8));
+			return !lines.get(lines.size() - 1).startsWith("\"");
 		}
 	}
 
@@ -48,32 +58,6 @@ public final class SystemClient {
 	 */
 	@Deprecated
 	public final void updateUser(final String userId, final String password) throws IOException {
-		send(SystemRequest.updateUser(userId, password));
-	}
-
-	private static String encodeCsvFields(final Field... fields) {
-		final Builder<String> names = ImmutableList.builder();
-		final Builder<String> values = ImmutableList.builder();
-		for (final Field field : fields) {
-			names.add(field.name);
-			values.add(field.value);
-		}
-		return encodeCsvValues(names.build()) + encodeCsvValues(values.build());
-	}
-
-	private static String encodeCsvValues(final Iterable<String> values) {
-		final StringBuilder result = new StringBuilder();
-		if (!Iterables.isEmpty(values)) {
-			result.append(encodeCsv(values.iterator().next()));
-			for (final String s : Iterables.skip(values, 1)) {
-				result.append(',');
-				result.append(encodeCsv(s));
-			}
-		}
-		return result.append("\r\n").toString();
-	}
-
-	private static String encodeCsv(final String s) {
-		return "\"" + s.replace("\"", "\"\"") + "\"";
+		send(SystemRequest.updateUser(new UserRecord(userId, password, null, null)));
 	}
 }

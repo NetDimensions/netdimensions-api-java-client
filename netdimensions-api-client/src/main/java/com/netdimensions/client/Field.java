@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Optional;
 
 final class Field {
 	final String name;
@@ -17,6 +18,10 @@ final class Field {
 	@Override
 	public final String toString() {
 		return encode(name) + "=" + encode(value);
+	}
+
+	static Optional<Field> fromNullableValue(final String name, final String value) {
+		return value == null ? Optional.<Field> absent() : Optional.of(new Field(name, value));
 	}
 
 	private static String encode(final String s) {
