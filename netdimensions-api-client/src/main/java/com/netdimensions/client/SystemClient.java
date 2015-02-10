@@ -29,16 +29,22 @@ public final class SystemClient {
 		final String password = args[4];
 		final String familyName = args[5];
 		final String givenName = args[6];
-		final boolean result = new SystemClient(baseUrl, adminUserId, key).send(SystemRequest
+		final Status result = new SystemClient(baseUrl, adminUserId, key).send(SystemRequest
 				.createUser(new UserRecord(userId, password, familyName, givenName)));
-		if (result) {
+		switch (result) {
+		case SUCCEEDED:
 			System.out.println("Successfully created user");
-		} else {
+			break;
+		case FAILED:
 			System.out.println("Couldn't create user");
+			break;
+		case UNKNOWN:
+			System.out.println("Couldn't determine whether user was created (Talent Suite version is 10.1 or earlier");
+			break;
 		}
 	}
 
-	public final boolean send(final SystemRequest req) throws IOException {
+	public final Status send(final SystemRequest req) throws IOException {
 		final URLConnection con = new URL(baseUrl + "contentHandler/usersCsv").openConnection();
 		con.setDoOutput(true);
 		con.setRequestProperty("Authorization", credentials.toString());
@@ -49,7 +55,7 @@ public final class SystemClient {
 		}
 		try (final InputStream in = con.getInputStream()) {
 			final List<String> lines = CharStreams.readLines(new InputStreamReader(in, Charsets.UTF_8));
-			return !lines.get(lines.size() - 1).startsWith("\"");
+			return lines.isEmpty() ? Status.UNKNOWN : lines.get(lines.size() - 1).startsWith("\"") ? Status.FAILED : Status.SUCCEEDED;
 		}
 	}
 
