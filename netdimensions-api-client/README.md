@@ -23,13 +23,13 @@ Use [`com.netdimensions.client.SystemClient`](https://github.com/rmlowe/netdimen
 SystemClient sysClient = new SystemClient("https://www.example.com/ekp/",
                                           "ndadmin",
                                           "authKey");
-sysClient.send(SystemRequest.createUser(new UserRecord("joestudent", "password", "Student", "Joe"));
+sysClient.send(SystemRequest.createUser(new UserRecord("joestudent", UserField.password("password"), UserField.familyName("Student"), UserField.givenName("Joe")));
 ```
 
 ### Updating an existing user's password
 
 ```java
-sysClient.send(SystemRequest.updateUser(new UserRecord("joestudent", "newpassword", null, null));
+sysClient.send(SystemRequest.updateUser(new UserRecord("joestudent", UserField.password("newpassword")));
 ```
 
 ## Checkout API
