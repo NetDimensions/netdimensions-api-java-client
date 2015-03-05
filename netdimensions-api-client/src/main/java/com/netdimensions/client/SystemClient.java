@@ -29,8 +29,8 @@ public final class SystemClient {
 		final String password = args[4];
 		final String familyName = args[5];
 		final String givenName = args[6];
-		final Status result = new SystemClient(baseUrl, adminUserId, key).send(SystemRequest
-				.createUser(new UserRecord(userId, password, familyName, givenName)));
+		final Status result = new SystemClient(baseUrl, adminUserId, key).send(SystemRequest.createUser(new UserRecord(userId, UserField.password(password),
+				UserField.familyName(familyName), UserField.givenName(givenName), UserField.status())));
 		switch (result) {
 		case SUCCEEDED:
 			System.out.println("Successfully created user");
@@ -64,6 +64,6 @@ public final class SystemClient {
 	 */
 	@Deprecated
 	public final void updateUser(final String userId, final String password) throws IOException {
-		send(SystemRequest.updateUser(new UserRecord(userId, password, null, null)));
+		send(SystemRequest.updateUser(new UserRecord(userId, UserField.password(password))));
 	}
 }
