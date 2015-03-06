@@ -19,7 +19,11 @@ public final class UserField {
 		return new UserField(new Field("GivenName", value));
 	}
 
-	public static UserField status() {
-		return new UserField(new Field("Status", "active"));
+	public static UserField status(final UserStatus value) {
+		return new UserField(new Field("Status", value.code));
+	}
+	
+	public static UserField attributeExtension(final String name, final String value) {
+		return new UserField(new Field("UA-" + name, value));
 	}
 }

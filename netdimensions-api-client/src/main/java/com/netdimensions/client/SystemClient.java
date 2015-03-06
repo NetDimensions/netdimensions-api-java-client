@@ -30,7 +30,7 @@ public final class SystemClient {
 		final String familyName = args[5];
 		final String givenName = args[6];
 		final Status result = new SystemClient(baseUrl, adminUserId, key).send(SystemRequest.createUser(new UserRecord(userId, UserField.password(password),
-				UserField.familyName(familyName), UserField.givenName(givenName), UserField.status())));
+				UserField.familyName(familyName), UserField.givenName(givenName), UserField.status(UserStatus.ACTIVE))));
 		switch (result) {
 		case SUCCEEDED:
 			System.out.println("Successfully created user");
