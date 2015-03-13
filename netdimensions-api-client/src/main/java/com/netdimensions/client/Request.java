@@ -28,6 +28,20 @@ public abstract class Request<T> {
 		});
 	}
 
+	public static Request<ImmutableList<User>> users(final String userId) {
+		return get("users", ImmutableList.of(new Field("userId", userId)), new Parser<ImmutableList<User>>() {
+			@Override
+			final ImmutableList<User> parse(final InputStream in) {
+				final JSONArray arr = parseJsonObject(in).getJSONArray("users");
+				final Builder<User> builder = ImmutableList.builder();
+				for (int i = 0; i < arr.length(); i++) {
+					builder.add(new User(arr.getJSONObject(i)));
+				}
+				return builder.build();
+			}
+		});
+	}
+
 	public static Request<ImmutableList<Report>> batchReports() {
 		return get("batchReports", ImmutableList.<Field> of(), new Parser<ImmutableList<Report>>() {
 			@Override
