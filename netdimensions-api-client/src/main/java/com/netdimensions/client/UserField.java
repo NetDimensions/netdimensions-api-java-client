@@ -22,6 +22,10 @@ public final class UserField {
 	public static UserField status(final UserStatus value) {
 		return new UserField(new Field("Status", value.code));
 	}
+
+	public static UserField jobTitle(final UserStatus value) {
+		return new UserField(new Field("Job Title", value.code));
+	}
 	
 	public static UserField attributeExtension(final String name, final String value) {
 		return new UserField(new Field("UA-" + name, value));
