@@ -7,9 +7,6 @@
         <dependent-module archiveName="netdimensions-api-client-servlet-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/netdimensions-api-client-servlet/netdimensions-api-client-servlet">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="netdimensions-api-client-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/netdimensions-api-client/netdimensions-api-client">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="netdimensions-api-client-servlet-example"/>
         <property name="java-output-path" value="/netdimensions-api-client-servlet-example/target/classes"/>
     </wb-module>
