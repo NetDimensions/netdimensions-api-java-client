@@ -59,4 +59,8 @@ public final class User {
 	public final String prefix() {
 		return stringOrNull(jo, "prefix");
 	}
+
+	public final String jobTitle() {
+		return stringOrNull(jo, "jobTitle");
+	}
 }

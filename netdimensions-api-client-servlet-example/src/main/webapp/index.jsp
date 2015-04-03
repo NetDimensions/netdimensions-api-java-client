@@ -33,6 +33,8 @@
 		<dd><%=country%></dd>
 		<dt>Post Or Zip Code?</dt>
 		<dd><%=user.postalCodeZip()%></dd>
+		<dt>Job Title</dt>
+		<dd><%=user.jobTitle()%></dd>
 	</dl>
 </body>
 </html>
