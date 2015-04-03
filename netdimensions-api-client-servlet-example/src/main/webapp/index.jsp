@@ -14,7 +14,8 @@
 	<h1>About You</h1>
 	<dl>
 		<dt>Name</dt>
-		<dd><%=user.given()%>
+		<dd><%=user.prefix()%>
+			<%=user.given()%>
 			<%=user.family()%></dd>
 		<dt>Email Address</dt>
 		<dd><%=user.email()%></dd>

@@ -55,4 +55,8 @@ public final class User {
 	public final String phone() {
 		return stringOrNull(jo, "phone");
 	}
+
+	public final String prefix() {
+		return stringOrNull(jo, "prefix");
+	}
 }
