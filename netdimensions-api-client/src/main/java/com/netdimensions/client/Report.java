@@ -7,7 +7,6 @@ public final class Report {
 
 	public Report(final JSONObject jsonObject) {
 		this.jsonObject = jsonObject;
-		// TODO Auto-generated constructor stub
 	}
 
 	public final String pathname() {
