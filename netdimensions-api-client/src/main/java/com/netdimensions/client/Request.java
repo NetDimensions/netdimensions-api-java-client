@@ -29,7 +29,7 @@ public abstract class Request<T> {
 	}
 
 	public static Request<ImmutableList<User>> users(final String userId) {
-		return get("users", ImmutableList.of(new Field("userId", userId)), new Parser<ImmutableList<User>>() {
+		return get("users", ImmutableList.of(new Field("userId", userId), new Field("format", "json")), new Parser<ImmutableList<User>>() {
 			@Override
 			final ImmutableList<User> parse(final InputStream in) {
 				final JSONArray arr = parseJsonObject(in).getJSONArray("users");

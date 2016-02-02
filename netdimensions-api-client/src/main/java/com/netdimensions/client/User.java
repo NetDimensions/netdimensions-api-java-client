@@ -63,4 +63,9 @@ public final class User {
 	public final String jobTitle() {
 		return stringOrNull(jo, "jobTitle");
 	}
+
+	public final Role primaryRole() {
+		final JSONObject obj = jo.optJSONObject("primaryRole");
+		return obj == null ? null : new Role(obj);
+	}
 }
